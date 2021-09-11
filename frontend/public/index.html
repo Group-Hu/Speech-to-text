@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <title>
+        Audio Record
+    </title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+
+        }
+        button{
+            width:50%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Transcript</h1>
+    <p id="transcript"></p>
+
+    <button id="record-button">
+        Record
+    </button>
+    <!-- <input type="file" accept="audio/*" capture id="recorder"> -->
+    <br>
+    <a id="download">Download</a>
+    <audio id="player" controls></audio><br>
+    <button id="submit-button" disabled="true">Submit Recording</button>
+
+</body>
+<script src="https://cdn.WebRTC-Experiment.com/MediaStreamRecorder.js"></script>
+<script src="bundle.js"></script>
+<script>
+    const transcript=document.getElementById("transcript")
+    function reqListener () {
+        jso=JSON.parse(this.responseText)
+        transcript.innerHTML=jso.value
+}
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", reqListener);
+    oReq.open("GET", "/text");
+    oReq.send();
+</script>
+
+</html>
