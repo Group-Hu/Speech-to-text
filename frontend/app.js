@@ -85,7 +85,7 @@ async function run(messages,res) {
     await producer.connect();
   
     await producer.send({
-      topic: "example_topic",
+      topic: "audio_topic",
      messages:messages
 
     });
