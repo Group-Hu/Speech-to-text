@@ -41,7 +41,7 @@
 
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", reqListener);
-    oReq.open("GET", "/text");
+    oReq.open("GET", "http://localhost:5000/text",{mode:'cors'});
     oReq.send();
 </script>
 
