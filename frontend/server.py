@@ -56,7 +56,7 @@ class AudioService(Resource):
         
         length=args["sampleRate"]
         key=args["key"]
-        producer = KafkaProducer(bootstrap_servers=servers)
+        producer = KafkaProducer(bootstrap_servers=servers,security_protocol="SSL")
         producer.send("group_5_audio_topic",key=str.encode(key),value=audio)
         # object={
         #     "data":str(base64.b64encode(audio)),
