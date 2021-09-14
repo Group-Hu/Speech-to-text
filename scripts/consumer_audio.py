@@ -23,7 +23,7 @@ def consumer_audio():
         # create a kafka consumer ad connect to the topic
         consumer = KafkaConsumer('groupHu_audio',                       
                             bootstrap_servers=["b-1.demo-cluster-1.9q7lp7.c1.kafka.eu-west-1.amazonaws.com:9092","b-2.demo-cluster-1.9q7lp7.c1.kafka.eu-west-1.amazonaws.com:9092"],
-                            value_deserializer=lambda x: loads(x.decode('utf-8')))
+                            )
         print("Done..")
     for message in consumer:
         
@@ -31,7 +31,8 @@ def consumer_audio():
         
         print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition,
                                             message.offset, message.key,
-                                            message.value))
+                                          message.value.decode('utf-8')))
+        key=message.key
         data=message.value['data']
         data=np.array(data)
         sample_rate=message.value['sample_rate']
@@ -40,7 +41,7 @@ def consumer_audio():
         print("Generating audio file ")
         for i in tq(range(100),desc="Generating audio file.."):
             wavio.write("../audio/recaptured2.wav",data,sampwidth=sample_width,rate=sample_rate)
-            s3.meta.client.upload.file('../audio/recaptured2.wav','/mnt/10ac-batch-4/all-data/groupHu/',)
+            s3.meta.client.upload.file('../audio/recaptured2.wav','/mnt/10ac-batch-4/all-data/groupHu/',+key+'.wav')
 
 
     # consume earliest available messages, don't commit offsets
