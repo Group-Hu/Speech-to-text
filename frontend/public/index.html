@@ -30,19 +30,7 @@
     <button id="submit-button" disabled="true">Submit Recording</button>
 
 </body>
-<script src="https://cdn.WebRTC-Experiment.com/MediaStreamRecorder.js"></script>
+<!-- <script src="https://cdn.WebRTC-Experiment.com/MediaStreamRecorder.js"></script> -->
 <script src="bundle.js"></script>
-<script>
-    const transcript=document.getElementById("transcript")
-    function reqListener () {
-        jso=JSON.parse(this.responseText)
-        transcript.innerHTML=jso.value
-}
-
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", reqListener);
-    oReq.open("GET", "http://localhost:5000/text",{mode:'cors'});
-    oReq.send();
-</script>
 
 </html>

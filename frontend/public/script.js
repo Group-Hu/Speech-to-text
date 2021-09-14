@@ -1,4 +1,18 @@
-// Code Adapted from https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b, https://developers.google.com/web/fundamentals/media/recording-audio
+// Some of the code has been Adapted from https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b, https://developers.google.com/web/fundamentals/media/recording-audio
+
+const transcript=document.getElementById("transcript")
+let key=null
+function reqListener () {
+        let jso=JSON.parse(this.responseText)
+        transcript.innerHTML=jso.value
+        key=jso.key
+}
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", reqListener);
+    oReq.open("GET", "/text",{mode:'cors'});
+    oReq.send();
+  
 
 import { MediaRecorder,register  } from 'extendable-media-recorder';
 
@@ -16,6 +30,7 @@ await register(await connect());
 
 const downloadLink = document.getElementById('download');
 var recording=null;
+var length=null;
 
 const player = document.getElementById('player');
 const recordAudio = () => {
@@ -88,6 +103,8 @@ recordButton.addEventListener("click",(async () => {
         const audio = await activeRecorder.stop();
         // audio.play();
         recording=audio.audioBlob
+        length=audio.audioBlob.size
+        console.log(length)
         active=false;
         activeRecorder=null
       recordButton.style.border="1px solid rgb(133, 133, 133)"
@@ -107,10 +124,16 @@ recordButton.addEventListener("click",(async () => {
           xhr.onload=function(e) {
             if(this.readyState === 4) {
                 console.log("Server returned: ",e.target.responseText);
+                
+          alert("Audio Submited")
             }
+
           };
           var fd=new FormData();
           fd.append("audio",recording, "filename");
+          let duration=length/(audioCtx.sampleRate * 2)
+          fd.append("length",duration)
+          fd.append("key",key);
           fd.append("sampleRate", audioCtx.sampleRate);
           xhr.open("POST","/api/audio",true);
           xhr.send(fd);

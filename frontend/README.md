@@ -1,6 +1,6 @@
 # Frontend for data collection
 
-<p>The servers are two part. A node/express server that handles the post of the audio and a python/flask server that handles the serving of the transciptions.
+<p>There are two server options. A node/express server and a python/flask server our recommendation is the python server. It can be run from here manually or run using the docker contained in the parent directory. 
 </p>
 
 ## Kafka topics required
@@ -21,6 +21,7 @@ Install the requirements.txt file
 ```
 pip install requirements.txt
 ```
+Change the ip address in ./scripts.py for the broker servers.
 And run the server.py script
 ```
 python .\server.py
