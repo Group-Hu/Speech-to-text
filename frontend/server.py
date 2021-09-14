@@ -19,7 +19,7 @@ servers=["b-1.demo-cluster-1.9q7lp7.c1.kafka.eu-west-1.amazonaws.com:9092","b-2.
 class TextService(Resource):
     def get(self):
         consumer = KafkaConsumer('group_5_text_topic',
-                         group_id='api',
+                         group_id='api',security_protocol="SSL",
                          bootstrap_servers=servers)
                          
         messages = consumer.poll(timeout_ms=10000,max_records=1)
