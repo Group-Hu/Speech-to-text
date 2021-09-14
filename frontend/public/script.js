@@ -124,7 +124,10 @@ recordButton.addEventListener("click",(async () => {
           xhr.onload=function(e) {
             if(this.readyState === 4) {
                 console.log("Server returned: ",e.target.responseText);
+                
+          alert("Audio Submited")
             }
+
           };
           var fd=new FormData();
           fd.append("audio",recording, "filename");
@@ -134,7 +137,6 @@ recordButton.addEventListener("click",(async () => {
           fd.append("sampleRate", audioCtx.sampleRate);
           xhr.open("POST","/api/audio",true);
           xhr.send(fd);
-          alert("Audio Submited")
       }
       submitButton.disabled=true;
   })
