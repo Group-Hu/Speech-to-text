@@ -103,7 +103,7 @@ recordButton.addEventListener("click",(async () => {
         const audio = await activeRecorder.stop();
         // audio.play();
         recording=audio.audioBlob
-        length=audio.size
+        length=audio.audioBlob.size
         console.log(length)
         active=false;
         activeRecorder=null
