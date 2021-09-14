@@ -121,12 +121,15 @@ recordButton.addEventListener("click",(async () => {
 
         console.log(audioCtx.sampleRate);
         var xhr=new XMLHttpRequest();
-          xhr.onload=function(e) {
+          xhr.onreadystatechange=function(e) {
             if(this.readyState === 4) {
                 console.log("Server returned: ",e.target.responseText);
                 
-          alert("Audio Submited")
             }
+            if (this.readyState == 4 && this.status == 200) {
+              
+              alert("Audio Submited")
+          }
 
           };
           var fd=new FormData();

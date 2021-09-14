@@ -18,7 +18,7 @@ servers=["b-1.demo-cluster-1.9q7lp7.c1.kafka.eu-west-1.amazonaws.com:9092","b-2.
 
 class TextService(Resource):
     def get(self):
-        consumer = KafkaConsumer('group_5_text_topic',
+        consumer = KafkaConsumer('groupHu_speech',
                          group_id='api',security_protocol="SSL",
                          bootstrap_servers=servers)
                          
@@ -30,7 +30,7 @@ class TextService(Resource):
                                                 message.offset, message.key,
                                                 message.value.decode('utf-8')))
             consumer.close()
-            return {'key': str(message.key),'value':message.value.decode('utf-8')}, 200 
+            return {'key': message.key.decode('utf-8'),'value':message.value.decode('utf-8')}, 200 
 
 #Code adapted from https://stackoverflow.com/questions/28982974/flask-restful-upload-image
 
@@ -57,13 +57,13 @@ class AudioService(Resource):
         length=args["sampleRate"]
         key=args["key"]
         producer = KafkaProducer(bootstrap_servers=servers,security_protocol="SSL")
-        producer.send("group_5_audio_topic",key=str.encode(key),value=audio)
-        # object={
-        #     "data":str(base64.b64encode(audio)),
-        #     "sample_rate":sampleRate,
-        #     "sample width":length
-        # }
-        # producer.send("audio_topic",key=key.encode('utf-8'),value=json.dumps(object).encode('utf-8'))
+        # producer.send("groupHu_audio",key=str.encode(key),value=audio)
+        object={
+            "data":str(base64.b64encode(audio)),
+            "sample_rate":sampleRate,
+            "sample width":length
+        }
+        producer.send("groupHu_audio",key=str.encode(key),value=json.dumps(object).encode('utf-8'))
         return 200
         
 api.add_resource(HomeService,'/')
