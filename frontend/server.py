@@ -20,7 +20,7 @@ class TextService(Resource):
     def get(self):
         consumer = KafkaConsumer('group_5_text_topic',
                          group_id='api',
-                         bootstrap_servers=['host.docker.internal:9092'])
+                         bootstrap_servers=servers)
                          
         messages = consumer.poll(timeout_ms=10000,max_records=1)
 
@@ -56,7 +56,7 @@ class AudioService(Resource):
         
         length=args["sampleRate"]
         key=args["key"]
-        producer = KafkaProducer(bootstrap_servers=["host.docker.internal:9092"])
+        producer = KafkaProducer(bootstrap_servers=servers)
         producer.send("group_5_audio_topic",key=str.encode(key),value=audio)
         # object={
         #     "data":str(base64.b64encode(audio)),
