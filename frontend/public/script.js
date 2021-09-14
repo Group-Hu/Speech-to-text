@@ -103,7 +103,7 @@ recordButton.addEventListener("click",(async () => {
         const audio = await activeRecorder.stop();
         // audio.play();
         recording=audio.audioBlob
-        length=audio.duration
+        length=audio.size
         console.log(length)
         active=false;
         activeRecorder=null
@@ -128,7 +128,8 @@ recordButton.addEventListener("click",(async () => {
           };
           var fd=new FormData();
           fd.append("audio",recording, "filename");
-          fd.append("length",length)
+          duration=length/(audioCtx.sampleRate * 2)
+          fd.append("length",duration)
           fd.append("key",key);
           fd.append("sampleRate", audioCtx.sampleRate);
           xhr.open("POST","/api/audio",true);
