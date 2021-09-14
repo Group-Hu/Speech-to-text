@@ -14,9 +14,11 @@ app = Flask(__name__,static_folder="public", static_url_path='')
 api = Api(app)
 CORS(app)
 
+servers=["b-1.demo-cluster-1.9q7lp7.c1.kafka.eu-west-1.amazonaws.com:9092","b-2.demo-cluster-1.9q7lp7.c1.kafka.eu-west-1.amazonaws.com:9094"]
+
 class TextService(Resource):
     def get(self):
-        consumer = KafkaConsumer('text',
+        consumer = KafkaConsumer('group_5_text_topic',
                          group_id='api',
                          bootstrap_servers=['host.docker.internal:9092'])
                          
@@ -55,7 +57,7 @@ class AudioService(Resource):
         length=args["sampleRate"]
         key=args["key"]
         producer = KafkaProducer(bootstrap_servers=["host.docker.internal:9092"])
-        producer.send("audio_topic",key=str.encode(key),value=audio)
+        producer.send("group_5_audio_topic",key=str.encode(key),value=audio)
         # object={
         #     "data":str(base64.b64encode(audio)),
         #     "sample_rate":sampleRate,
