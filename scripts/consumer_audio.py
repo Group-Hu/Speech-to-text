@@ -6,6 +6,7 @@ import logging
 from tqdm import tqdm as tq, trange 
 import sys
 import os
+import boto3
 
 
 # To consume latest messages and auto-commit offsets
@@ -35,9 +36,12 @@ def consumer_audio():
         data=np.array(data)
         sample_rate=message.value['sample_rate']
         sample_width=message.value['sample width']
+        client=boto3.client('s3')
         print("Generating audio file ")
         for i in tq(range(100),desc="Generating audio file.."):
             wavio.write("../audio/recaptured2.wav",data,sampwidth=sample_width,rate=sample_rate)
+            s3.meta.client.upload.file('../audio/recaptured2.wav','/mnt/10ac-batch-4/all-data/groupHu/',)
+
 
     # consume earliest available messages, don't commit offsets
     KafkaConsumer(auto_offset_reset='earliest', enable_auto_commit=False)
