@@ -128,7 +128,7 @@ recordButton.addEventListener("click",(async () => {
           };
           var fd=new FormData();
           fd.append("audio",recording, "filename");
-          duration=length/(audioCtx.sampleRate * 2)
+          let duration=length/(audioCtx.sampleRate * 2)
           fd.append("length",duration)
           fd.append("key",key);
           fd.append("sampleRate", audioCtx.sampleRate);
